@@ -3,6 +3,9 @@ package constants
 
 // OpCodes is a map[string]byte that defines the op codes for Open Interface commands.
 var OpCodes = map[string]byte{
+	"Reset": 7,
+	"Stop": 173,
+
 	// Getting started commands
 	"Start": 128,
 	"Baud":  129,

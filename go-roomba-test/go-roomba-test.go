@@ -2,10 +2,9 @@ package main
 
 import (
 	"flag"
+	"github.com/xa4a/go-roomba"
 	"log"
 	"time"
-
-	"github.com/xa4a/go-roomba"
 )
 
 const (
@@ -22,9 +21,15 @@ func main() {
 	if err != nil {
 		log.Fatal("Making roomba failed")
 	}
-	r.Safe()
-	r.Drive(40, 200)
-	t := time.Tick(1000 * time.Millisecond)
-	<-t
-	r.Stop()
+
+	_ = r.Start()
+	_ = r.Safe()
+	_ = r.MotorControl(true, true, true, true, roomba.DefaultDirection)
+	err = r.MotorPWM(0, 10, 0)
+	_ = r.LEDs(false, true, false, true, 0, 0)
+	timer := time.Tick(2 * time.Second)
+	<- timer
+	_ = r.MotorControl(false, false, false, false, roomba.DefaultDirection)
+	_ = r.Stop()
+	_ = r.Reset()
 }
